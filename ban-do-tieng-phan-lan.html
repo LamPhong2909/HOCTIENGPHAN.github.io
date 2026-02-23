@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bản Đồ Chiến Lược Tiếng Phần Lan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --surface: #111418;
+    --surface2: #181c22;
+    --border: #252a32;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-amber: #f59e0b;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --accent-pink: #ec4899;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 40px 0 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), var(--accent-cyan), transparent);
+  }
+  .header .label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 4vw, 38px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .header .sub {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+  .badge {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 4px 14px;
+    border: 1px solid var(--accent-amber);
+    color: var(--accent-amber);
+    font-size: 10px;
+    letter-spacing: 2px;
+    border-radius: 2px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 10px 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab:hover { color: var(--text-dim); }
+  .tab.active { color: var(--accent-cyan); border-bottom-color: var(--accent-cyan); }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title span { font-size: 11px; color: var(--text-muted); font-weight: 400; font-family: 'IBM Plex Mono', monospace; }
+  .section-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    line-height: 1.7;
+    max-width: 700px;
+  }
+
+  /* GRID SYSTEMS */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #333a45; }
+  .card::before {
+    content: attr(data-accent-line);
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .card[data-color="blue"]::before { background: var(--accent-blue); }
+  .card[data-color="cyan"]::before { background: var(--accent-cyan); }
+  .card[data-color="amber"]::before { background: var(--accent-amber); }
+  .card[data-color="green"]::before { background: var(--accent-green); }
+  .card[data-color="red"]::before { background: var(--accent-red); }
+  .card[data-color="purple"]::before { background: var(--accent-purple); }
+  .card[data-color="pink"]::before { background: var(--accent-pink); }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  .card-title .finnish {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 400;
+    display: block;
+    margin-top: 3px;
+  }
+  .card-badge {
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .badge-blue { background: rgba(59,130,246,0.15); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.3); }
+  .badge-cyan { background: rgba(6,182,212,0.15); color: var(--accent-cyan); border: 1px solid rgba(6,182,212,0.3); }
+  .badge-amber { background: rgba(245,158,11,0.15); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-green { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.3); }
+  .badge-red { background: rgba(239,68,68,0.15); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.3); }
+  .badge-purple { background: rgba(139,92,246,0.15); color: var(--accent-purple); border: 1px solid rgba(139,92,246,0.3); }
+
+  /* CASE ROW */
+  .case-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .case-row:last-child { border-bottom: none; }
+  .case-suffix {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+  }
+  .case-meaning { color: var(--text-dim); }
+  .case-example {
+    margin-top: 3px;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .case-example em { color: var(--accent-amber); font-style: normal; }
+
+  /* FORMULA BOX */
+  .formula {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-green);
+    letter-spacing: 0.5px;
+  }
+
+  /* VERB TABLE */
+  .verb-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  .verb-table th {
+    text-align: left;
+    padding: 6px 10px;
+    color: var(--text-muted);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  .verb-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(37,42,50,0.5);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .verb-table tr:last-child td { border-bottom: none; }
+  .verb-table .fi { color: var(--accent-cyan); font-family: 'Space Mono', monospace; font-weight: 700; }
+  .verb-table .vi { color: var(--text-dim); }
+  .verb-table .conj { color: var(--accent-amber); font-size: 10px; }
+  .verb-table .note { color: var(--text-muted); font-size: 9px; font-style: italic; }
+
+  /* HARMONIC BOX */
+  .harmonic-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .harm-col {
+    padding: 12px;
+    font-size: 11px;
+  }
+  .harm-col.back { background: rgba(59,130,246,0.08); }
+  .harm-col.front { background: rgba(236,72,153,0.08); }
+  .harm-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .harm-col.back .harm-label { color: var(--accent-blue); }
+  .harm-col.front .harm-label { color: var(--accent-pink); }
+  .harm-vowels {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+  .harm-col.back .harm-vowels { color: var(--accent-blue); }
+  .harm-col.front .harm-vowels { color: var(--accent-pink); }
+  .harm-examples { color: var(--text-muted); font-size: 10px; line-height: 1.8; }
+  .harm-examples span { color: var(--text-dim); }
+
+  /* PRIORITY METER */
+  .priority {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+  .priority-dots { display: flex; gap: 3px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+  .dot.on-blue { background: var(--accent-blue); }
+  .dot.on-amber { background: var(--accent-amber); }
+  .dot.on-green { background: var(--accent-green); }
+  .dot.on-red { background: var(--accent-red); }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  /* ALERT BOX */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 1.7;
+    margin: 12px 0;
+  }
+  .alert-amber { background: rgba(245,158,11,0.08); border-left: 3px solid var(--accent-amber); color: var(--text-dim); }
+  .alert-cyan { background: rgba(6,182,212,0.08); border-left: 3px solid var(--accent-cyan); color: var(--text-dim); }
+  .alert-green { background: rgba(16,185,129,0.08); border-left: 3px solid var(--accent-green); color: var(--text-dim); }
+  .alert strong { color: #fff; }
+
+  /* MINI TAG */
+  .tag {
+    display: inline-block;
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin: 2px 2px 2px 0;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .tag-blue { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+  .tag-amber { background: rgba(245,158,11,0.15); color: var(--accent-amber); }
+  .tag-green { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+  .tag-pink { background: rgba(236,72,153,0.15); color: var(--accent-pink); }
+  .tag-red { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+  .tag-purple { background: rgba(139,92,246,0.15); color: var(--accent-purple); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* CASE OVERVIEW TABLE */
+  .overview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 24px;
+  }
+  .overview-table th {
+    background: var(--surface2);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .overview-table td {
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .overview-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .ot-case { font-family: 'Space Mono', monospace; font-weight: 700; color: #fff; font-size: 12px; }
+  .ot-suffix { color: var(--accent-cyan); font-family: 'Space Mono', monospace; font-weight: 700; }
+  .ot-question { color: var(--accent-amber); font-size: 10px; }
+  .ot-example { color: var(--text-muted); font-size: 10px; font-style: italic; }
+  .ot-example span { color: var(--text-dim); font-style: normal; }
+  .ot-vi { color: var(--text-dim); font-size: 11px; }
+  .priority-p1 { background: rgba(16,185,129,0.06); }
+  .priority-p2 { background: rgba(59,130,246,0.04); }
+  .priority-p3 { background: rgba(139,92,246,0.04); }
+
+  /* TIMELINE INDICATOR */
+  .phase-tag {
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 32px 0 16px;
+    font-size: 10px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 12px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .harmonic-split { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">⚡ Hệ thống chiến lược học tiếng Phần Lan</div>
+  <h1>BA BẢN ĐỒ CỐT LÕI<br><span style="color:var(--accent-cyan)">SUOMI BATTLE MAP</span></h1>
+  <div class="sub">Mục tiêu: A2.2 · Thời hạn: Tháng 8/2026 · Phương pháp: Tứ Trụ Thực Chiến</div>
+  <div class="badge">⚠ OPERATIONAL — KHÔNG PHẢI ĐỂ ĐỌC — ĐỂ DÙNG HÀNG NGÀY</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('case')">🗺 Bản Đồ Case (15 Cách)</button>
+  <button class="tab" onclick="showTab('verb')">⚙ Bản Đồ Động Từ (6 Nhóm)</button>
+  <button class="tab" onclick="showTab('vowel')">🔊 Bản Đồ Biến Âm</button>
+</div>
+
+<!-- ===== SECTION 1: CASE MAP ===== -->
+<div id="tab-case" class="section active">
+  <div class="section-title">Bản Đồ 15 Case (Cách) <span>// nominatiivi → abessiivi</span></div>
+  <div class="section-desc">
+    Tiếng Phần Lan có 15 case. Mỗi case là một hậu tố (suffix) gắn vào gốc từ — giống như truyền tham số vào hàm.
+    Gốc từ = hàm. Suffix = tham số. Output = ý nghĩa mới. Học case theo CỤM LOGIC, không học rời rạc.
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent-green)"></div> Ưu tiên P1 — Học ngay (Tuần 1-4)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent-blue)"></div> Ưu tiên P2 — Tuần 5-8</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent-purple)"></div> Ưu tiên P3 — Tuần 9-16</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent-amber)"></div> Biến thể âm hòa (harmonia vocalis)</div>
+  </div>
+
+  <div class="alert alert-cyan">
+    <strong>Quy tắc vàng:</strong> Case suffix KHÔNG gắn vào từ nguyên dạng (base form). Phải lấy <strong>Stem</strong> (gốc biến hình) trước. Ví dụ: talo → talo<em style="color:var(--accent-cyan)">ssa</em> (không phải talossa từ talo nguyên xi — thực ra đây trùng nhau, nhưng với auto → auton thì gốc biến rồi). Luôn check stem khi gắn suffix!
+  </div>
+
+  <!-- OVERVIEW TABLE -->
+  <table class="overview-table">
+    <thead>
+      <tr>
+        <th>Case</th>
+        <th>Suffix</th>
+        <th>Câu hỏi / Chức năng</th>
+        <th>Ví dụ (talo = nhà)</th>
+        <th>Ý nghĩa VN</th>
+        <th>Phase</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- P1 -->
+      <tr class="priority-p1">
+        <td><span class="ot-case">Nominatiivi</span></td>
+        <td><span class="ot-suffix">—</span></td>
+        <td><span class="ot-question">Mikä? / Kuka?</span><br><span class="ot-example">Chủ ngữ</span></td>
+        <td><span class="ot-example"><span>talo</span> on suuri</span></td>
+        <td class="ot-vi">Căn nhà to</td>
+        <td><span class="tag tag-green">P1</span></td>
+      </tr>
+      <tr class="priority-p1">
+        <td><span class="ot-case">Genetiivi</span></td>
+        <td><span class="ot-suffix">-n</span></td>
+        <td><span class="ot-question">Minkä? Kenen?</span><br><span class="ot-example">Sở hữu + Tân ngữ hoàn toàn</span></td>
+        <td><span class="ot-example"><span>talon</span> ovi</span></td>
+        <td class="ot-vi">Cửa <u>của nhà</u></td>
+        <td><span class="tag tag-green">P1</span></td>
+      </tr>
+      <tr class="priority-p1">
+        <td><span class="ot-case">Partitiivi</span></td>
+        <td><span class="ot-suffix">-a/-ä<br>-ta/-tä</span></td>
+        <td><span class="ot-question">Mitä? / Ketä?</span><br><span class="ot-example">Tân ngữ một phần, số nhiều, trạng thái</span></td>
+        <td><span class="ot-example">Juon <span>kahvia</span></span></td>
+        <td class="ot-vi">Tôi đang uống cà phê (chưa xong)</td>
+        <td><span class="tag tag-green">P1</span></td>
+      </tr>
+      <tr class="priority-p1">
+        <td><span class="ot-case">Inessiivi</span></td>
+        <td><span class="ot-suffix">-ssa/-ssä</span></td>
+        <td><span class="ot-question">Missä?</span><br><span class="ot-example">Ở trong (vị trí)</span></td>
+        <td><span class="ot-example"><span>talossa</span></span></td>
+        <td class="ot-vi">Ở trong nhà</td>
+        <td><span class="tag tag-green">P1</span></td>
+      </tr>
+      <tr class="priority-p1">
+        <td><span class="ot-case">Elatiivi</span></td>
+        <td><span class="ot-suffix">-sta/-stä</span></td>
+        <td><span class="ot-question">Mistä?</span><br><span class="ot-example">Ra khỏi / Từ trong</span></td>
+        <td><span class="ot-example"><span>talosta</span></span></td>
+        <td class="ot-vi">Ra khỏi nhà</td>
+        <td><span class="tag tag-green">P1</span></td>
+      </tr>
+      <tr class="priority-p1">
+        <td><span class="ot-case">Illatiivi</span></td>
+        <td><span class="ot-suffix">-Vn<br>-seen/-hen</span></td>
+        <td><span class="ot-question">Mihin?</span><br><span class="ot-example">Vào trong (chuyển động)</span></td>
+        <td><span class="ot-example"><span>taloon</span></span></td>
+        <td class="ot-vi">Vào trong nhà</td>
+        <td><span class="tag tag-green">P1</span></td>
+      </tr>
+      <!-- P2 -->
+      <tr class="priority-p2">
+        <td><span class="ot-case">Adessiivi</span></td>
+        <td><span class="ot-suffix">-lla/-llä</span></td>
+        <td><span class="ot-question">Missä?</span><br><span class="ot-example">Ở trên/bên (bề mặt hở)</span></td>
+        <td><span class="ot-example"><span>pöydällä</span></span></td>
+        <td class="ot-vi">Trên bàn</td>
+        <td><span class="tag tag-blue">P2</span></td>
+      </tr>
+      <tr class="priority-p2">
+        <td><span class="ot-case">Ablatiivi</span></td>
+        <td><span class="ot-suffix">-lta/-ltä</span></td>
+        <td><span class="ot-question">Mistä?</span><br><span class="ot-example">Từ trên / Từ bên (bề mặt)</span></td>
+        <td><span class="ot-example"><span>pöydältä</span></span></td>
+        <td class="ot-vi">Từ trên bàn xuống</td>
+        <td><span class="tag tag-blue">P2</span></td>
+      </tr>
+      <tr class="priority-p2">
+        <td><span class="ot-case">Allatiivi</span></td>
+        <td><span class="ot-suffix">-lle</span></td>
+        <td><span class="ot-question">Mihin?</span><br><span class="ot-example">Lên trên / Cho (người)</span></td>
+        <td><span class="ot-example"><span>pöydälle</span></span></td>
+        <td class="ot-vi">Lên bàn / Cho anh ấy</td>
+        <td><span class="tag tag-blue">P2</span></td>
+      </tr>
+      <tr class="priority-p2">
+        <td><span class="ot-case">Essiivi</span></td>
+        <td><span class="ot-suffix">-na/-nä</span></td>
+        <td><span class="ot-question">Minä?</span><br><span class="ot-example">Với tư cách là / Trạng thái</span></td>
+        <td><span class="ot-example">opettaja<span>na</span></span></td>
+        <td class="ot-vi">Với tư cách là giáo viên</td>
+        <td><span class="tag tag-blue">P2</span></td>
+      </tr>
+      <tr class="priority-p2">
+        <td><span class="ot-case">Translatiivi</span></td>
+        <td><span class="ot-suffix">-ksi</span></td>
+        <td><span class="ot-question">Miksi?</span><br><span class="ot-example">Trở thành / Biến đổi thành</span></td>
+        <td><span class="ot-example">opettaja<span>ksi</span></span></td>
+        <td class="ot-vi">Trở thành giáo viên</td>
+        <td><span class="tag tag-blue">P2</span></td>
+      </tr>
+      <!-- P3 -->
+      <tr class="priority-p3">
+        <td><span class="ot-case">Instruktiivi</span></td>
+        <td><span class="ot-suffix">-n</span></td>
+        <td><span class="ot-question">Miten?</span><br><span class="ot-example">Bằng cách nào (cố định)</span></td>
+        <td><span class="ot-example">käsi<span>n</span></span></td>
+        <td class="ot-vi">Bằng tay</td>
+        <td><span class="tag tag-purple">P3</span></td>
+      </tr>
+      <tr class="priority-p3">
+        <td><span class="ot-case">Komitatiivi</span></td>
+        <td><span class="ot-suffix">-ne-</span></td>
+        <td><span class="ot-question">—</span><br><span class="ot-example">Cùng với (sở hữu kèm)</span></td>
+        <td><span class="ot-example">lapsi<span>neen</span></span></td>
+        <td class="ot-vi">Cùng với những đứa con</td>
+        <td><span class="tag tag-purple">P3</span></td>
+      </tr>
+      <tr class="priority-p3">
+        <td><span class="ot-case">Abessiivi</span></td>
+        <td><span class="ot-suffix">-tta/-ttä</span></td>
+        <td><span class="ot-question">—</span><br><span class="ot-example">Không có / Thiếu</span></td>
+        <td><span class="ot-example">raha<span>tta</span></span></td>
+        <td class="ot-vi">Không có tiền</td>
+        <td><span class="tag tag-purple">P3</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SPATIAL LOGIC -->
+  <div class="section-title" style="font-size:14px; margin-bottom: 16px;">Trục Logic Không Gian — Hệ "Trong" vs "Trên"</div>
+  <div class="grid-2">
+    <div class="card" data-color="cyan">
+      <div class="card-header">
+        <div class="card-title">Nhóm "TRONG" (Internal)<span class="finnish">-ss- / -st- / Vn (illatiivi)</span></div>
+        <div class="card-badge badge-cyan">KÍN</div>
+      </div>
+      <div class="alert alert-cyan" style="margin-top:0">
+        Dùng cho không gian <strong>kín, bao bọc</strong> (tòa nhà, phòng, thành phố, hộp, nước...)
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">-ssa/-ssä</span><br><span style="font-size:9px; color:var(--text-muted)">Inessiivi</span></div>
+        <div class="case-meaning"><strong>Ở trong</strong> (vị trí tĩnh)
+          <div class="case-example">talossa = <em>trong nhà</em> | Suomessa = <em>ở Phần Lan</em></div>
+        </div>
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">-sta/-stä</span><br><span style="font-size:9px; color:var(--text-muted)">Elatiivi</span></div>
+        <div class="case-meaning"><strong>Ra khỏi / Về</strong> (xuất phát từ trong)
+          <div class="case-example">talosta = <em>ra khỏi nhà</em> | Suomesta = <em>từ Phần Lan</em></div>
+        </div>
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">-Vn</span><br><span style="font-size:9px; color:var(--text-muted)">Illatiivi</span></div>
+        <div class="case-meaning"><strong>Vào trong</strong> (chuyển động hướng vào)
+          <div class="case-example">taloon = <em>vào nhà</em> | Suomeen = <em>vào Phần Lan</em></div>
+        </div>
+      </div>
+      <div class="formula">Vị trí (TRONG) → -ssa/-ssä<br>Rời khỏi → -sta/-stä<br>Đến vào → -Vn (nhân đôi nguyên âm cuối + n)</div>
+    </div>
+
+    <div class="card" data-color="amber">
+      <div class="card-header">
+        <div class="card-title">Nhóm "TRÊN/BÊN" (External)<span class="finnish">-ll- / -lt- / -lle</span></div>
+        <div class="card-badge badge-amber">HỞ</div>
+      </div>
+      <div class="alert alert-amber" style="margin-top:0">
+        Dùng cho bề mặt <strong>hở, mở</strong> (bàn, sàn, quảng trường, biển, nước ngoài...) và dùng với <strong>người</strong> (cho ai, từ ai)
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">-lla/-llä</span><br><span style="font-size:9px; color:var(--text-muted)">Adessiivi</span></div>
+        <div class="case-meaning"><strong>Ở trên / Ở bên</strong> (vị trí tĩnh)
+          <div class="case-example">pöydällä = <em>trên bàn</em> | Sinulla on = <em>bạn có</em></div>
+        </div>
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">-lta/-ltä</span><br><span style="font-size:9px; color:var(--text-muted)">Ablatiivi</span></div>
+        <div class="case-meaning"><strong>Từ trên / Từ bên</strong> (xuất phát từ bề mặt)
+          <div class="case-example">pöydältä = <em>từ bàn</em> | sinulta = <em>từ bạn</em></div>
+        </div>
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">-lle</span><br><span style="font-size:9px; color:var(--text-muted)">Allatiivi</span></div>
+        <div class="case-meaning"><strong>Lên / Cho</strong> (chuyển động hoặc trao cho)
+          <div class="case-example">pöydälle = <em>lên bàn</em> | sinulle = <em>cho bạn</em></div>
+        </div>
+      </div>
+      <div class="formula">Vị trí (BÊN/TRÊN) → -lla/-llä<br>Rời khỏi → -lta/-ltä<br>Đến / Cho → -lle</div>
+    </div>
+  </div>
+
+  <div class="alert alert-green" style="margin-top: 20px">
+    <strong>Mẹo thực chiến — Partitiivi (Case khó nhất A2):</strong> Dùng Partitiivi khi: (1) Hành động chưa hoàn tất — <em>Juon kahvia</em> (đang uống dở); (2) Số lượng không xác định — <em>paljon maitoa</em> (nhiều sữa); (3) Sau con số từ 5 trở lên — <em>viisi taloa</em>; (4) Câu phủ định — <em>En näe taloa</em>. Ngược lại = Genetiivi (Total Object — hành động hoàn tất).
+  </div>
+</div>
+
+<!-- ===== SECTION 2: VERB MAP ===== -->
+<div id="tab-verb" class="section">
+  <div class="section-title">Bản Đồ 6 Nhóm Động Từ <span>// verbityyppi 1-6</span></div>
+  <div class="section-desc">
+    Động từ Phần Lan chia theo nhóm (verbityyppi) dựa trên đuôi infinitive (dạng nguyên thể). Nhận diện đúng nhóm → biết ngay cách chia → phản xạ tự nhiên.
+    Học nhóm 1-3 trước (chiếm &gt;80% động từ thường dùng). Nhóm 4-6 bổ sung sau.
+  </div>
+
+  <div class="grid-2">
+
+    <!-- TYPE 1 -->
+    <div class="card" data-color="green">
+      <div class="card-header">
+        <div class="card-title">Verbityyppi 1<span class="finnish">Kết thúc: -aa, -ää, -oa, -öä, -ua, -yä, -ia, -iä (2 nguyên âm)</span></div>
+        <div class="card-badge badge-green">P1 — Phổ biến nhất</div>
+      </div>
+      <div class="alert alert-green" style="margin-top:0; margin-bottom:12px">
+        <strong>Quy tắc:</strong> Bỏ nguyên âm cuối → thêm đuôi chia. Đây là nhóm lớn nhất, chứa phần lớn động từ hàng ngày.
+      </div>
+      <div class="formula">puhua (nói) → puh + endings<br>opiskella (học) → opiskel + endings</div>
+      <table class="verb-table">
+        <tr>
+          <th>Chủ ngữ</th><th>puhua (nói)</th><th>asua (sống)</th>
+        </tr>
+        <tr><td>minä</td><td class="fi">puhun</td><td class="fi">asun</td></tr>
+        <tr><td>sinä</td><td class="fi">puhut</td><td class="fi">asut</td></tr>
+        <tr><td>hän</td><td class="fi">puhuu</td><td class="fi">asuu</td></tr>
+        <tr><td>me</td><td class="fi">puhumme</td><td class="fi">asumme</td></tr>
+        <tr><td>te</td><td class="fi">puhutte</td><td class="fi">asutte</td></tr>
+        <tr><td>he</td><td class="fi">puhuvat</td><td class="fi">asuvat</td></tr>
+      </table>
+      <div class="priority"><div class="priority-dots"><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div></div>NGAY TUẦN 1</div>
+    </div>
+
+    <!-- TYPE 2 -->
+    <div class="card" data-color="cyan">
+      <div class="card-header">
+        <div class="card-title">Verbityyppi 2<span class="finnish">Kết thúc: -da/-dä (sau nguyên âm dài hoặc diphthong)</span></div>
+        <div class="card-badge badge-cyan">P1 — Động từ cơ bản</div>
+      </div>
+      <div class="alert alert-cyan" style="margin-top:0; margin-bottom:12px">
+        <strong>Quy tắc:</strong> Bỏ -da/-dä → thêm đuôi chia trực tiếp (KHÔNG mất gốc). Bao gồm nhiều động từ rất thông dụng.
+      </div>
+      <div class="formula">syödä (ăn) → syö + endings<br>juoda (uống) → juo + endings</div>
+      <table class="verb-table">
+        <tr>
+          <th>Chủ ngữ</th><th>syödä (ăn)</th><th>juoda (uống)</th>
+        </tr>
+        <tr><td>minä</td><td class="fi">syön</td><td class="fi">juon</td></tr>
+        <tr><td>sinä</td><td class="fi">syöt</td><td class="fi">juot</td></tr>
+        <tr><td>hän</td><td class="fi">syö</td><td class="fi">juo</td></tr>
+        <tr><td>me</td><td class="fi">syömme</td><td class="fi">juomme</td></tr>
+        <tr><td>te</td><td class="fi">syötte</td><td class="fi">juotte</td></tr>
+        <tr><td>he</td><td class="fi">syövät</td><td class="fi">juovat</td></tr>
+      </table>
+      <div class="priority"><div class="priority-dots"><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div></div>NGAY TUẦN 1</div>
+    </div>
+
+    <!-- TYPE 3 -->
+    <div class="card" data-color="blue">
+      <div class="card-header">
+        <div class="card-title">Verbityyppi 3<span class="finnish">Kết thúc: -la/-lä, -na/-nä, -ra/-rä, -sta/-stä</span></div>
+        <div class="card-badge badge-blue">P1 — Nhóm 3 có -ele-</div>
+      </div>
+      <div class="alert alert-cyan" style="margin-top:0; margin-bottom:12px">
+        <strong>Quy tắc:</strong> Bỏ -la/-lä (hoặc -na, -ra, -sta) → thêm <strong>-e-</strong> + endings. Hán đặc trưng = xuất hiện "e" ở stem khi chia.
+      </div>
+      <div class="formula">tulla (đến) → tule + endings<br>mennä (đi) → mene + endings</div>
+      <table class="verb-table">
+        <tr>
+          <th>Chủ ngữ</th><th>tulla (đến)</th><th>mennä (đi)</th>
+        </tr>
+        <tr><td>minä</td><td class="fi">tulen</td><td class="fi">menen</td></tr>
+        <tr><td>sinä</td><td class="fi">tulet</td><td class="fi">menet</td></tr>
+        <tr><td>hän</td><td class="fi">tulee</td><td class="fi">menee</td></tr>
+        <tr><td>me</td><td class="fi">tulemme</td><td class="fi">menemme</td></tr>
+        <tr><td>te</td><td class="fi">tulette</td><td class="fi">menette</td></tr>
+        <tr><td>he</td><td class="fi">tulevat</td><td class="fi">menevät</td></tr>
+      </table>
+      <div class="priority"><div class="priority-dots"><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div><div class="dot on-green"></div></div>TUẦN 1-2</div>
+    </div>
+
+    <!-- TYPE 4 -->
+    <div class="card" data-color="amber">
+      <div class="card-header">
+        <div class="card-title">Verbityyppi 4<span class="finnish">Kết thúc: -ata/-ätä, -ota/-ötä, -uta/-ytä</span></div>
+        <div class="card-badge badge-amber">P2 — Tuần 5+</div>
+      </div>
+      <div class="alert alert-amber" style="margin-top:0; margin-bottom:12px">
+        <strong>Quy tắc:</strong> Bỏ -ta/-tä → thêm <strong>-a/-ä</strong> + endings. Hay xuất hiện biến đổi âm (consonant gradation) ở stem.
+      </div>
+      <div class="formula">tavata (gặp) → tapaa (hän) → tapa + endings<br>haluta (muốn) → halua + endings</div>
+      <table class="verb-table">
+        <tr>
+          <th>Chủ ngữ</th><th>haluta (muốn)</th><th>tavata (gặp)</th>
+        </tr>
+        <tr><td>minä</td><td class="fi">haluan</td><td class="fi">tapaan</td></tr>
+        <tr><td>sinä</td><td class="fi">haluat</td><td class="fi">tapaat</td></tr>
+        <tr><td>hän</td><td class="fi">haluaa</td><td class="fi">tapaa</td></tr>
+        <tr><td>me</td><td class="fi">haluamme</td><td class="fi">tapaamme</td></tr>
+        <tr><td>te</td><td class="fi">haluatte</td><td class="fi">tapaatte</td></tr>
+        <tr><td>he</td><td class="fi">haluavat</td><td class="fi">tapaavat</td></tr>
+      </table>
+      <div class="priority"><div class="priority-dots"><div class="dot on-amber"></div><div class="dot on-amber"></div><div class="dot on-amber"></div><div class="dot"></div><div class="dot"></div></div>TUẦN 5-6</div>
+    </div>
+
+    <!-- TYPE 5 -->
+    <div class="card" data-color="purple">
+      <div class="card-header">
+        <div class="card-title">Verbityyppi 5<span class="finnish">Kết thúc: -ita/-itä</span></div>
+        <div class="card-badge badge-purple">P2</div>
+      </div>
+      <div class="formula">tarvita (cần) → tarvitse + endings<br>merkitä (có nghĩa) → merkitse + endings</div>
+      <table class="verb-table">
+        <tr>
+          <th>Chủ ngữ</th><th>tarvita (cần)</th>
+        </tr>
+        <tr><td>minä</td><td class="fi">tarvitsen</td></tr>
+        <tr><td>sinä</td><td class="fi">tarvitset</td></tr>
+        <tr><td>hän</td><td class="fi">tarvitsee</td></tr>
+        <tr><td>me</td><td class="fi">tarvitsemme</td></tr>
+        <tr><td>te</td><td class="fi">tarvitsette</td></tr>
+        <tr><td>he</td><td class="fi">tarvitsevat</td></tr>
+      </table>
+      <div class="alert alert-amber" style="margin-top: 10px">
+        <strong>Trick:</strong> Nhóm 5: thêm <strong>-tse-</strong> vào gốc (bỏ đuôi -ita/-itä, thêm -tse + ending)
+      </div>
+      <div class="priority"><div class="priority-dots"><div class="dot on-amber"></div><div class="dot on-amber"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>TUẦN 6-7</div>
+    </div>
+
+    <!-- TYPE 6 -->
+    <div class="card" data-color="red">
+      <div class="card-header">
+        <div class="card-title">Verbityyppi 6<span class="finnish">Kết thúc: -eta/-etä</span></div>
+        <div class="card-badge badge-red">P3 — Hiếm</div>
+      </div>
+      <div class="formula">parata (khỏi bệnh) → paranee (hän)<br>vanheta (già đi) → vanhenee (hän)</div>
+      <table class="verb-table">
+        <tr>
+          <th>Chủ ngữ</th><th>parata (khỏi)</th>
+        </tr>
+        <tr><td>minä</td><td class="fi">paranen</td></tr>
+        <tr><td>hän</td><td class="fi">paranee</td></tr>
+        <tr><td>he</td><td class="fi">paranevat</td></tr>
+      </table>
+      <div class="alert alert-amber" style="margin-top: 10px">
+        <strong>Trick:</strong> Nhóm 6: Thêm -ne- vào gốc (bỏ -eta/-etä, thêm -ne + ending). Nhóm này hiếm, không cần ưu tiên đầu tư sâu.
+      </div>
+      <div class="priority"><div class="priority-dots"><div class="dot on-red"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>TUẦN 9+</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ENDINGS SUMMARY -->
+  <div class="section-title" style="font-size:14px; margin-bottom:14px">Bảng Đuôi Chia Động Từ Hiện Tại (Preesens)</div>
+  <div class="card" data-color="cyan">
+    <table class="verb-table">
+      <tr>
+        <th>Chủ ngữ</th><th>Đuôi chuẩn</th><th>Ví dụ (puhua)</th><th>Ghi chú</th>
+      </tr>
+      <tr><td>minä (tôi)</td><td class="fi">-n</td><td class="fi">puhun</td><td class="note">Luôn là -n</td></tr>
+      <tr><td>sinä (bạn)</td><td class="fi">-t</td><td class="fi">puhut</td><td class="note">Luôn là -t</td></tr>
+      <tr><td>hän (anh/cô/nó)</td><td class="fi">nguyên âm nhân đôi</td><td class="fi">puhuu</td><td class="note">Nhân đôi nguyên âm cuối stem</td></tr>
+      <tr><td>me (chúng tôi)</td><td class="fi">-mme</td><td class="fi">puhumme</td><td class="note">Luôn -mme</td></tr>
+      <tr><td>te (các bạn)</td><td class="fi">-tte</td><td class="fi">puhutte</td><td class="note">Luôn -tte</td></tr>
+      <tr><td>he (họ)</td><td class="fi">-vat/-vät</td><td class="fi">puhuvat</td><td class="note">Hòa âm theo nhóm</td></tr>
+    </table>
+  </div>
+
+  <!-- IRREGULAR VERBS -->
+  <div class="section-title" style="font-size:14px; margin: 24px 0 14px">Động Từ Bất Quy Tắc Quan Trọng Nhất</div>
+  <div class="card" data-color="amber">
+    <table class="verb-table">
+      <tr>
+        <th>Infinitive</th><th>Nghĩa</th><th>minä</th><th>hän</th><th>he</th><th>Lưu ý</th>
+      </tr>
+      <tr>
+        <td class="fi">olla</td><td class="vi">là / ở / có</td>
+        <td class="fi">olen</td><td class="fi">on</td><td class="fi">ovat</td>
+        <td class="note">⚠ Bất quy tắc hoàn toàn</td>
+      </tr>
+      <tr>
+        <td class="fi">käydä</td><td class="vi">đi (thường xuyên)</td>
+        <td class="fi">käyn</td><td class="fi">käy</td><td class="fi">käyvät</td>
+        <td class="note">Nhóm 2</td>
+      </tr>
+      <tr>
+        <td class="fi">voida</td><td class="vi">có thể</td>
+        <td class="fi">voin</td><td class="fi">voi</td><td class="fi">voivat</td>
+        <td class="note">Modal verb</td>
+      </tr>
+      <tr>
+        <td class="fi">saada</td><td class="vi">nhận được / được phép</td>
+        <td class="fi">saan</td><td class="fi">saa</td><td class="fi">saavat</td>
+        <td class="note">Nhóm 2</td>
+      </tr>
+      <tr>
+        <td class="fi">pitää</td><td class="vi">phải / thích</td>
+        <td class="fi">pidän</td><td class="fi">pitää</td><td class="fi">pitävät</td>
+        <td class="note">⚠ Gradation: t→d</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: VOWEL HARMONY MAP ===== -->
+<div id="tab-vowel" class="section">
+  <div class="section-title">Bản Đồ Biến Âm <span>// vokaaliharmonia + konsonanttimuutokset</span></div>
+  <div class="section-desc">
+    Biến âm là "thuật toán nền" của tiếng Phần Lan. Một khi nắm vững, bạn không cần nhớ từng suffix riêng — bạn <em>tính toán</em> ra đúng dạng. Có 2 hệ thống biến âm chính: <strong>Hòa âm nguyên âm (Vowel Harmony)</strong> và <strong>Biến âm phụ âm (Consonant Gradation - KPT)</strong>.
+  </div>
+
+  <!-- VOWEL HARMONY -->
+  <div class="section-title" style="font-size:14px; margin-bottom: 14px">1. Hòa Âm Nguyên Âm (Vokaaliharmonia)</div>
+  <div class="card" data-color="blue" style="margin-bottom: 20px">
+    <div class="card-header">
+      <div class="card-title">Quy tắc Hòa Âm — "Nguyên âm kéo đồng đội"<span class="finnish">Nhìn vào nguyên âm của từ gốc → chọn suffix tương ứng</span></div>
+    </div>
+    <div class="harmonic-split">
+      <div class="harm-col back">
+        <div class="harm-label">🔵 BACK VOWELS (Cứng)</div>
+        <div class="harm-vowels">a o u</div>
+        <div class="harm-examples">
+          talo → talo<span>ssa</span> (ssa, not ssä)<br>
+          puhua → puhu<span>a</span><br>
+          koulu → koulu<span>sta</span><br>
+          auto → auto<span>lla</span>
+        </div>
+      </div>
+      <div class="harm-col front">
+        <div class="harm-label">🩷 FRONT VOWELS (Mềm)</div>
+        <div class="harm-vowels">ä ö y</div>
+        <div class="harm-examples">
+          tyttö → tytö<span>ssä</span> (ssä, not ssa)<br>
+          syödä → syö<span>dä</span><br>
+          kylpy → kylpy<span>stä</span><br>
+          pöytä → pöydä<span>llä</span>
+        </div>
+      </div>
+    </div>
+    <div class="formula">BACK (a, o, u) → Suffix dùng: -a, -ssa, -sta, -lla, -lta, -na, -ta...<br>FRONT (ä, ö, y) → Suffix dùng: -ä, -ssä, -stä, -llä, -ltä, -nä, -tä...<br>Nguyên âm trung tính (i, e) → Đi theo nhóm còn lại trong từ</div>
+    <div class="alert alert-cyan" style="margin-top:12px">
+      <strong>Trick siêu thực dụng:</strong> Nghe từ, để ý nguyên âm cuối hoặc nổi bật nhất. Nếu là A/O/U → dùng suffix "cứng". Nếu là Ä/Ö/Y → dùng suffix "mềm". Đây là phản xạ — luyện đến khi TỰ NHIÊN không cần nghĩ.
+    </div>
+  </div>
+
+  <!-- NEUTRAL VOWELS EXPLANATION -->
+  <div class="grid-2" style="margin-bottom: 20px">
+    <div class="card" data-color="purple">
+      <div class="card-header">
+        <div class="card-title">Nguyên âm Trung tính: i & e<span class="finnish">Không thuộc nhóm nào — đi theo nguyên âm khác trong từ</span></div>
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">i, e</span></div>
+        <div class="case-meaning">Nếu từ chỉ có i/e → dùng FRONT (ä-group)
+          <div class="case-example">piste → piste<em>essä</em> (không phải essa)</div>
+        </div>
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">a+i</span></div>
+        <div class="case-meaning">Nếu từ có a VÀ i → dùng BACK (a-group)
+          <div class="case-example">kauppa → kauppa<em>ssa</em></div>
+        </div>
+      </div>
+      <div class="case-row">
+        <div><span class="case-suffix">ä+i</span></div>
+        <div class="case-meaning">Nếu từ có ä VÀ i → dùng FRONT (ä-group)
+          <div class="case-example">tyttö → tytö<em>ssä</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-color="cyan">
+      <div class="card-header">
+        <div class="card-title">Các cặp Suffix Back/Front tương đương<span class="finnish">Học CẶPĐÔI — không học riêng lẻ</span></div>
+      </div>
+      <table class="verb-table">
+        <tr><th>Chức năng</th><th>BACK (a)</th><th>FRONT (ä)</th></tr>
+        <tr><td>Ở trong</td><td class="fi">-ssa</td><td class="fi">-ssä</td></tr>
+        <tr><td>Ra khỏi</td><td class="fi">-sta</td><td class="fi">-stä</td></tr>
+        <tr><td>Vào trong</td><td class="fi">-an/-on/-un</td><td class="fi">-än/-ön/-yn</td></tr>
+        <tr><td>Ở trên/bên</td><td class="fi">-lla</td><td class="fi">-llä</td></tr>
+        <tr><td>Từ bên</td><td class="fi">-lta</td><td class="fi">-ltä</td></tr>
+        <tr><td>Đến/Cho</td><td class="fi" colspan="2">-lle (không đổi!)</td></tr>
+        <tr><td>Partitiivi</td><td class="fi">-a/-ta</td><td class="fi">-ä/-tä</td></tr>
+        <tr><td>Essiivi</td><td class="fi">-na</td><td class="fi">-nä</td></tr>
+        <tr><td>Translatiivi</td><td class="fi" colspan="2">-ksi (không đổi!)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- CONSONANT GRADATION -->
+  <div class="section-title" style="font-size:14px; margin: 24px 0 14px">2. Biến Âm Phụ Âm — Consonant Gradation (KPT Rule)</div>
+  <div class="card" data-color="red" style="margin-bottom: 20px">
+    <div class="card-header">
+      <div class="card-title">Quy tắc KPT — "Phụ âm biến hóa khi thêm suffix"<span class="finnish">k, p, t thay đổi hoặc biến mất khi gốc từ nhận suffix</span></div>
+      <div class="card-badge badge-red">⚠ RẤT QUAN TRỌNG</div>
+    </div>
+    <div class="alert alert-amber">
+      <strong>Bản chất:</strong> Khi một suffix được thêm vào, phụ âm cuối của stem có thể "yếu đi" (gradation). Đây gọi là <em>weak grade</em>. Dạng nguyên thể = <em>strong grade</em>.
+    </div>
+    <table class="verb-table" style="margin-top: 14px">
+      <tr>
+        <th>Strong → Weak</th><th>Ví dụ từ</th><th>Dạng gốc (Nom)</th><th>Dạng yếu (Gen/Case)</th><th>Pattern</th>
+      </tr>
+      <tr>
+        <td class="fi">kk → k</td><td class="vi">túi xách</td><td class="fi">laukku</td><td class="fi">laukun</td><td class="note">kk giảm còn k</td>
+      </tr>
+      <tr>
+        <td class="fi">pp → p</td><td class="vi">cửa hàng</td><td class="fi">kauppa</td><td class="fi">kaupan</td><td class="note">pp giảm còn p</td>
+      </tr>
+      <tr>
+        <td class="fi">tt → t</td><td class="vi">căn phòng</td><td class="fi">huoneisto</td><td class="fi">huoneiston</td><td class="note">tt giảm còn t</td>
+      </tr>
+      <tr>
+        <td class="fi">k → —</td><td class="vi">người</td><td class="fi">poika</td><td class="fi">pojan</td><td class="note">k biến mất hoàn toàn</td>
+      </tr>
+      <tr>
+        <td class="fi">p → v</td><td class="vi">bảng</td><td class="fi">taulu</td><td class="fi">—</td><td class="note">p→v (hiếm hơn)</td>
+      </tr>
+      <tr>
+        <td class="fi">t → d</td><td class="vi">đường phố</td><td class="fi">katu</td><td class="fi">kadun</td><td class="note">t→d rất phổ biến!</td>
+      </tr>
+      <tr>
+        <td class="fi">nk → ng</td><td class="vi">phòng</td><td class="fi">huone</td><td class="fi">huoneen</td><td class="note">—</td>
+      </tr>
+    </table>
+    <div class="formula">RULE: Khi thêm suffix tạo thêm âm tiết CÓ ĐUÔI → stem dùng WEAK GRADE<br>Khi syllable cuối MỞ (kết thúc nguyên âm) → stem dùng STRONG GRADE</div>
+  </div>
+
+  <!-- ILLATIVE SPECIAL RULE -->
+  <div class="section-title" style="font-size:14px; margin: 24px 0 14px">3. Illatiivi — Quy Tắc Đặc Biệt "Nhân Đôi + N"</div>
+  <div class="card" data-color="amber">
+    <div class="card-header">
+      <div class="card-title">Vào Trong (Illatiivi) — Suffix phức tạp nhất A1-A2<span class="finnish">Không có dạng suffix cố định — phụ thuộc vào gốc từ</span></div>
+      <div class="card-badge badge-amber">⚠ Học kỹ</div>
+    </div>
+    <table class="verb-table">
+      <tr>
+        <th>Loại gốc từ</th><th>Công thức</th><th>Ví dụ</th><th>Kết quả</th>
+      </tr>
+      <tr>
+        <td class="vi">Kết thúc 1 nguyên âm ngắn</td>
+        <td class="fi">Nguyên âm cuối × 2 + n</td>
+        <td class="fi">talo</td><td class="fi">taloon (o→oo+n)</td>
+      </tr>
+      <tr>
+        <td class="vi">Kết thúc 2 nguyên âm</td>
+        <td class="fi">+ n trực tiếp</td>
+        <td class="fi">maa</td><td class="fi">maahan (+ han)</td>
+      </tr>
+      <tr>
+        <td class="vi">Kết thúc -e</td>
+        <td class="fi">-seen</td>
+        <td class="fi">huone</td><td class="fi">huoneeseen</td>
+      </tr>
+      <tr>
+        <td class="vi">Ngắn (1 syllable)</td>
+        <td class="fi">VVn hoặc -han/-hen/-hin/-hon/-hun/-hyn/-hän/-hön</td>
+        <td class="fi">suo</td><td class="fi">suohon</td>
+      </tr>
+    </table>
+    <div class="alert alert-amber" style="margin-top: 12px">
+      <strong>Trick nhớ Illatiivi:</strong> Nghe từ, tìm nguyên âm cuối của stem, nhân đôi nó, thêm -n. Nếu stem kết thúc phụ âm thì thêm -seen hoặc -hVn. Luyện qua flash card với 20 từ thường dùng — phản xạ hóa hoàn toàn trước khi học lý thuyết sâu hơn.
+    </div>
+  </div>
+
+  <!-- WORD TYPE / STEM CHANGES FOR NOUNS -->
+  <div class="section-title" style="font-size:14px; margin: 24px 0 14px">4. Bảng Biến Gốc Danh Từ Phổ Biến (Stem Changes)</div>
+  <div class="card" data-color="purple">
+    <table class="verb-table">
+      <tr>
+        <th>Dạng Nom (Từ điển)</th><th>Stem (Gen -n)</th><th>Partitiivi</th><th>Loại pattern</th>
+      </tr>
+      <tr>
+        <td class="fi">talo</td><td class="fi">talon</td><td class="fi">taloa</td><td class="note">Đơn giản nhất</td>
+      </tr>
+      <tr>
+        <td class="fi">koira</td><td class="fi">koiran</td><td class="fi">koiraa</td><td class="note">Kết thúc -a/-ä</td>
+      </tr>
+      <tr>
+        <td class="fi">poika</td><td class="fi">pojan</td><td class="fi">poikaa</td><td class="note">k→j (gradation)</td>
+      </tr>
+      <tr>
+        <td class="fi">nainen</td><td class="fi">naisen</td><td class="fi">naista</td><td class="note">-nen → -se-</td>
+      </tr>
+      <tr>
+        <td class="fi">lapsi</td><td class="fi">lapsen</td><td class="fi">lasta</td><td class="note">-si → -se-</td>
+      </tr>
+      <tr>
+        <td class="fi">käsi</td><td class="fi">käden</td><td class="fi">kättä</td><td class="note">-si → -de-; kk→k</td>
+      </tr>
+      <tr>
+        <td class="fi">mies</td><td class="fi">miehen</td><td class="fi">miestä</td><td class="note">-es → -ehe-</td>
+      </tr>
+      <tr>
+        <td class="fi">vuosi</td><td class="fi">vuoden</td><td class="fi">vuotta</td><td class="note">-si → -de-; tt→t</td>
+      </tr>
+    </table>
+    <div class="alert alert-cyan" style="margin-top: 12px">
+      <strong>Chiến thuật Error Log:</strong> Mỗi khi gặp lỗi biến gốc, ghi ngay vào Error Log theo format: <br>
+      <strong>[từ sai] → [đúng] | Pattern: [tên pattern] | Ví dụ câu: ...</strong><br>
+      Tạo Anki card với câu hoàn chỉnh — KHÔNG học từ đơn lẻ.
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  SUOMI BATTLE MAP · A2.2 TARGET · SAMK UAS 2026<br>
+  Tứ Trụ Thực Chiến: Tốc Độ Có Bản Đồ · Sản Xuất Cưỡng Bức · Sửa Sai Chịu Đấm · Tự Động Hóa Có Kiểm Chứng
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
