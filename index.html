@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bản Đồ Chiến Lược Tiếng Phần Lan</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 
   :root {
     --bg: #0a0c10;
@@ -29,7 +29,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Syne', Arial, Helvetica, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'Liberation Sans', 'Noto Sans', sans-serif;
     min-height: 100vh;
     padding: 24px;
   }
@@ -57,7 +57,7 @@
     margin-bottom: 12px;
   }
   .header h1 {
-    font-family: 'Syne', sans-serif;
+    font-family: inherit;
     font-size: clamp(22px, 4vw, 38px);
     font-weight: 800;
     color: #fff;
@@ -91,7 +91,7 @@
   }
   .tab {
     padding: 10px 20px;
-    font-family: 'Syne', sans-serif;
+    font-family: inherit;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1.5px;
@@ -113,7 +113,7 @@
 
   /* SECTION TITLE */
   .section-title {
-    font-family: 'Syne', Arial, Helvetica, sans-serif;
+    font-family: inherit;
     font-size: 18px;
     font-weight: 800;
     color: #fff;
@@ -167,14 +167,14 @@
     margin-bottom: 16px;
   }
   .card-title {
-    font-family: 'Syne', Arial, Helvetica, sans-serif;
+    font-family: inherit;
     font-size: 13px;
     font-weight: 700;
     color: #fff;
     letter-spacing: 0.5px;
   }
   .card-title .finnish {
-    font-family: 'IBM Plex Mono', 'Space Mono', 'Courier New', monospace;
+    font-family: 'Fira Mono', 'Consolas', 'Liberation Mono', monospace;
     font-size: 10px;
     color: var(--text-muted);
     font-weight: 400;
@@ -209,7 +209,7 @@
   }
   .case-row:last-child { border-bottom: none; }
   .case-suffix {
-    font-family: 'Space Mono', 'IBM Plex Mono', 'Courier New', monospace;
+    font-family: 'Fira Mono', 'Consolas', 'Liberation Mono', monospace;
     font-size: 12px;
     font-weight: 700;
     color: var(--accent-cyan);
@@ -396,8 +396,8 @@
     line-height: 1.6;
   }
   .overview-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .ot-case { font-family: 'Space Mono', monospace; font-weight: 700; color: #fff; font-size: 12px; }
-  .ot-suffix { color: var(--accent-cyan); font-family: 'Space Mono', monospace; font-weight: 700; }
+  .ot-case { font-family: inherit; font-weight: 700; color: #fff; font-size: 15px; }
+  .ot-suffix { color: var(--accent-cyan); font-family: 'Fira Mono', 'Consolas', 'Liberation Mono', monospace; font-weight: 700; }
   .ot-question { color: var(--accent-amber); font-size: 10px; }
   .ot-example { color: var(--text-muted); font-size: 10px; font-style: italic; }
   .ot-example span { color: var(--text-dim); font-style: normal; }
